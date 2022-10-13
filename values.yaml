@@ -82,6 +82,9 @@ tolerations: []
 affinity: {}
 
 
+# Values used other values
+bunnyshellUnique: &bunnyshellUnique a1b2c3
+
 # Values used in configmap.yaml
 customConfigMap:
   data:
@@ -108,11 +111,11 @@ customService:
         port: 8080
         targetPort: 8080
 
-# Values used in persitentvolumeclaim.yaml
+# Values used in oersistentvolumeclaim.yaml
 customPvc:
   metadata:
-    name: db-data-a1b2c3
-    namespace: env-a1b2c3
+    name: db-data-
+    namespace: env-
   spec:
     accessModes:
       RWO: ReadWriteOnce
@@ -120,4 +123,9 @@ customPvc:
     resources:
       requests:
         storage: 1Gi
-    storageClassName: bns-network-sc      
+    storageClassName: bns-network-sc
+
+# Values used in ingress.yaml
+customIngress:
+  spec:
+    ingressClassName: bns-nginx

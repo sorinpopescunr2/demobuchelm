@@ -2,8 +2,8 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   creationTimestamp: null
-  name: {{ .Values.customPvc.metadata.name }}
-  namespace: {{ .Values.customPvc.metadata.namespace }}
+  name: {{ .Values.customPvc.metadata.name }}{{ .Values.bunnyshellUnique}}
+  namespace: {{ .Values.customPvc.metadata.namespace }}{{ .Values.bunnyshellUnique}}
 spec:
   accessModes:
   - {{ .Values.customPvc.spec.accessModes.RWX }}
