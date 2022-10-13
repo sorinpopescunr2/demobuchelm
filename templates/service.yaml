@@ -24,7 +24,6 @@ metadata:
     {{- include "demobuc1.Always" . | nindent 4 }}
   creationTimestamp: null
   labels:
-    labels:
     {{- include "demobuc1.serviceLabels" . | nindent 4 }} db
   name: db
 spec:
@@ -44,7 +43,6 @@ metadata:
     {{- include "demobuc1.IfNotPresent" . | nindent 4 }}
   creationTimestamp: null
   labels:
-    labels:
     {{- include "demobuc1.serviceLabels" . | nindent 4 }} frontend
   name: frontend
 spec:
