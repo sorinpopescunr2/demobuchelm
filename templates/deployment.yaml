@@ -1,61 +1,136 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "demobuc1.fullname" . }}
+  creationTimestamp: null
   labels:
-    {{- include "demobuc1.labels" . | nindent 4 }}
+    io.kompose.service: backend
+  name: backend
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  replicas: 1
   selector:
     matchLabels:
-      {{- include "demobuc1.selectorLabels" . | nindent 6 }}
+      io.kompose.service: backend
+  strategy: {}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        com.bunnyshell.k8s.component_containers_map: '{"_replicas":1,"_version":1665648382,"backend":"backend"}'
+        kompose.cmd: kompose convert -o compose --pvc-request-size 1Gi
+        kompose.image-pull-policy: IfNotPresent
+        kompose.version: 1.24.0 (HEAD)
+      creationTimestamp: null
       labels:
-        {{- include "demobuc1.selectorLabels" . | nindent 8 }}
+        io.kompose.service: backend
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "demobuc1.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      - envFrom:
+        - configMapRef:
+            name: env-file-backend
+        image: {{ .Values.customDeployment.backend.image.repository }}:{{ .Values.customDeployment.backend.image.tag }}
+        imagePullPolicy: IfNotPresent
+        name: backend
+        ports:
+        - containerPort: {{ .Values.customService.spec.ports.backend.port }}
+        resources: {}
+      restartPolicy: Always
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -o compose --pvc-request-size 1Gi
+    kompose.image-pull-policy: Always
+    kompose.version: 1.24.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: db
+  name: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        com.bunnyshell.k8s.component_containers_map: '{"_replicas":1,"_version":1665648382,"bns-volume-permissions":"db","db":"db"}'
+        kompose.cmd: kompose convert -o compose --pvc-request-size 1Gi
+        kompose.image-pull-policy: Always
+        kompose.version: 1.24.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: db
+    spec:
+      containers:
+      - envFrom:
+        - configMapRef:
+            name: env-file-db
+        image: postgres
+        imagePullPolicy: Always
+        name: db
+        ports:
+        - containerPort: {{ .Values.customService.spec.ports.db.port }}
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: {{ .Values.customPvc.metadata.name }}{{ .Values.bunnyshellUnique }}
+      initContainers:
+      - args:
+        - -c
+        - true && if [ -d "/mnt/bns/volume-0/lost+found" ];then rm -rf /mnt/bns/volume-0/lost+found;
+          fi && chmod 777 /mnt/bns/volume-0
+        command:
+        - /bin/sh
+        image: busybox:1.35.0@sha256:506593a4eb16efb7160a37d716ed9ca7b20a337d400207f29c504fcb64982bcc
+        imagePullPolicy: IfNotPresent
+        name: bns-volume-permissions
+        volumeMounts:
+        - mountPath: /mnt/bns/volume-0
+          name: {{ .Values.customPvc.metadata.name }}{{ .Values.bunnyshellUnique }}
+      restartPolicy: Always
+      volumes:
+      - name: {{ .Values.customPvc.metadata.name }}{{ .Values.bunnyshellUnique }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.customPvc.metadata.name }}{{ .Values.bunnyshellUnique }}
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -o compose --pvc-request-size 1Gi
+    kompose.image-pull-policy: IfNotPresent
+    kompose.version: 1.24.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontend
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontend
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        com.bunnyshell.k8s.component_containers_map: '{"_replicas":1,"_version":1665648382,"frontend":"frontend"}'
+        kompose.cmd: kompose convert -o compose --pvc-request-size 1Gi
+        kompose.image-pull-policy: IfNotPresent
+        kompose.version: 1.24.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: frontend
+    spec:
+      containers:
+      - image: {{ .Values.customDeployment.frontend.image.repository }}:{{ .Values.customDeployment.frontend.image.tag }}
+        imagePullPolicy: IfNotPresent
+        name: frontend
+        ports:
+        - containerPort: {{ .Values.customService.spec.ports.frontend.port }}
+        resources: {}
+      restartPolicy: Always
+status: {}
