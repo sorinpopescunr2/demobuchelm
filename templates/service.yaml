@@ -13,3 +13,67 @@ spec:
       name: http
   selector:
     {{- include "demobuc1.selectorLabels" . | nindent 4 }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -o compose --pvc-request-size 1Gi
+    kompose.image-pull-policy: IfNotPresent
+    kompose.version: 1.24.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: backend
+  name: backend
+spec:
+  ports:
+  - name: {{ .Values.customService.ports.backend.name }}
+    port: {{ .Values.customService.ports.backend.port }}
+    targetPort: {{ .Values.customService.ports.backend.targetPort }}
+  selector:
+    io.kompose.service: backend
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -o compose --pvc-request-size 1Gi
+    kompose.image-pull-policy: Always
+    kompose.version: 1.24.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: db
+  name: db
+spec:
+  ports:
+  - name: {{ .Values.customService.ports.db.name }}
+    port: {{ .Values.customService.ports.db.port }}
+    targetPort: {{ .Values.customService.ports.db.targetPort }}
+  selector:
+    io.kompose.service: db
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -o compose --pvc-request-size 1Gi
+    kompose.image-pull-policy: IfNotPresent
+    kompose.version: 1.24.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontend
+  name: frontend
+spec:
+  ports:
+  - name: {{ .Values.customService.ports.frontend.name }}
+    port: {{ .Values.customService.ports.frontend.port }}
+    targetPort: {{ .Values.customService.ports.frontend.targetPort }}
+  selector:
+    io.kompose.service: frontend
+status:
+  loadBalancer: {}

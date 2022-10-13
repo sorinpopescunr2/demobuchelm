@@ -82,7 +82,7 @@ tolerations: []
 affinity: {}
 
 
-# Custom variables used in configmap.yaml settings.
+# Values used in configmap.yaml
 
 customConfigMap:
   variables:
@@ -91,3 +91,20 @@ customConfigMap:
     postgresHost: db
     postgressPassword: need-to-replace
     postgresUser: postgres
+
+# Values used in configmap.yaml
+
+customService:
+  ports:
+    backend:
+      name: "3080"
+      port: 3080
+      targetPort: 3080
+    db:
+      name: "5432"
+      port: 5432
+      targetPort: 5432
+    frontend:
+      name: "8080"
+      port: 8080
+      targetPort: 8080
