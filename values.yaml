@@ -80,3 +80,13 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+
+# Custom variables used in configmap.yaml settings.
+
+customConfigMapVariables:
+  frontendUrl: https://frontend-a1b2c3.bunnyenv.com
+  postgresDb: bunny_books
+  postgresHost: db
+  postgressPassword: need-to-replace
+  postgresUser: postgres

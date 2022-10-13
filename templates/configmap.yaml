@@ -1,47 +1,10 @@
 apiVersion: v1
 data:
-  BNS_GIT_BRANCH: master
-kind: ConfigMap
-metadata:
-  creationTimestamp: null
-  labels: {}
-  name: bns-builtin-backend-env-vars
----
-apiVersion: v1
-data:
-  BNS_GIT_BRANCH: master
-kind: ConfigMap
-metadata:
-  creationTimestamp: null
-  labels: {}
-  name: bns-builtin-db-env-vars
----
-apiVersion: v1
-data:
-  BNS_INGRESS_URL_BACKEND_0: backend-qvce4v.bunnyenv.com
-  BNS_INGRESS_URL_FRONTEND_0: frontend-qvce4v.bunnyenv.com
-kind: ConfigMap
-metadata:
-  creationTimestamp: null
-  labels: {}
-  name: bns-builtin-env-vars
----
-apiVersion: v1
-data:
-  BNS_GIT_BRANCH: master
-kind: ConfigMap
-metadata:
-  creationTimestamp: null
-  labels: {}
-  name: bns-builtin-frontend-env-vars
----
-apiVersion: v1
-data:
-  FRONTEND_URL: https://frontend-qvce4v.bunnyenv.com
-  POSTGRES_DB: bunny_books
-  POSTGRES_HOST: db
-  POSTGRES_PASSWORD: need-to-replace
-  POSTGRES_USER: postgres
+  FRONTEND_URL: {{ .Values.customConfigMapVariables.frontendUrl }}
+  POSTGRES_DB: {{ .Values.customConfigMapVariables.postgresDb }}
+  POSTGRES_HOST: {{ .Values.customConfigMapVariables.postgresHost }}
+  POSTGRES_PASSWORD: {{ .Values.customConfigMapVariables.postgressPassword }}
+  POSTGRES_USER: {{ .Values.customConfigMapVariables.postgresUser }}
 kind: ConfigMap
 metadata:
   creationTimestamp: null
@@ -50,27 +13,11 @@ metadata:
 ---
 apiVersion: v1
 data:
-  POSTGRES_DB: bunny_books
-  POSTGRES_PASSWORD: need-to-replace
-  POSTGRES_USER: postgres
+  POSTGRES_DB: {{ .Values.customConfigMapVariables.postgresDb }}
+  POSTGRES_PASSWORD: {{ .Values.customConfigMapVariables.postgressPassword }}
+  POSTGRES_USER: {{ .Values.customConfigMapVariables.postgresUser }}
 kind: ConfigMap
 metadata:
   creationTimestamp: null
   labels: {}
   name: env-file-db
----
-apiVersion: v1
-data: {}
-kind: ConfigMap
-metadata:
-  creationTimestamp: null
-  labels: {}
-  name: environment-variables
----
-apiVersion: v1
-data: {}
-kind: ConfigMap
-metadata:
-  creationTimestamp: null
-  labels: {}
-  name: project-variables
