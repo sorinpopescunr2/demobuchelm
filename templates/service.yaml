@@ -9,7 +9,7 @@ metadata:
   name: backend
 spec:
   ports:
-  - name: {{ .Values.customService.spec.ports.backend.name }}
+  - name: "{{ .Values.customService.spec.ports.backend.name }}"
     port: {{ .Values.customService.spec.ports.backend.port }}
     targetPort: {{ .Values.customService.spec.ports.backend.targetPort }}
   selector:
@@ -28,7 +28,7 @@ metadata:
   name: db
 spec:
   ports:
-  - name: {{ .Values.customService.spec.ports.db.name }}
+  - name: "{{ .Values.customService.spec.ports.db.name }}"
     port: {{ .Values.customService.spec.ports.db.port }}
     targetPort: {{ .Values.customService.spec.ports.db.targetPort }}
   selector:
@@ -47,7 +47,7 @@ metadata:
   name: frontend
 spec:
   ports:
-  - name: {{ .Values.customService.spec.ports.frontend.name }}
+  - name: "{{ .Values.customService.spec.ports.frontend.name }}"
     port: {{ .Values.customService.spec.ports.frontend.port }}
     targetPort: {{ .Values.customService.spec.ports.frontend.targetPort }}
   selector:
