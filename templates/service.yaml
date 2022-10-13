@@ -9,9 +9,9 @@ metadata:
   name: backend
 spec:
   ports:
-  - name: {{ .Values.customService.ports.backend.name }}
-    port: {{ .Values.customService.ports.backend.port }}
-    targetPort: {{ .Values.customService.ports.backend.targetPort }}
+  - name: {{ .Values.customService.spec.ports.backend.name }}
+    port: {{ .Values.customService.spec.ports.backend.port }}
+    targetPort: {{ .Values.customService.spec.ports.backend.targetPort }}
   selector:
     {{- include "demobuc1.serviceSelector" . | nindent 4 }} backend
 status:
@@ -29,9 +29,9 @@ metadata:
   name: db
 spec:
   ports:
-  - name: {{ .Values.customService.ports.db.name }}
-    port: {{ .Values.customService.ports.db.port }}
-    targetPort: {{ .Values.customService.ports.db.targetPort }}
+  - name: {{ .Values.customService.spec.ports.db.name }}
+    port: {{ .Values.customService.spec.ports.db.port }}
+    targetPort: {{ .Values.customService.spec.ports.db.targetPort }}
   selector:
     {{- include "demobuc1.serviceSelector" . | nindent 4 }} db
 status:
@@ -49,9 +49,9 @@ metadata:
   name: frontend
 spec:
   ports:
-  - name: {{ .Values.customService.ports.frontend.name }}
-    port: {{ .Values.customService.ports.frontend.port }}
-    targetPort: {{ .Values.customService.ports.frontend.targetPort }}
+  - name: {{ .Values.customService.spec.ports.frontend.name }}
+    port: {{ .Values.customService.spec.ports.frontend.port }}
+    targetPort: {{ .Values.customService.spec.ports.frontend.targetPort }}
   selector:
     {{- include "demobuc1.serviceSelector" . | nindent 4 }} frontend
 status:

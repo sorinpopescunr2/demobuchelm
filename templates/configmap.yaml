@@ -1,10 +1,10 @@
 apiVersion: v1
 data:
-  FRONTEND_URL: {{ .Values.customConfigMap.variables.frontendUrl }}
-  POSTGRES_DB: {{ .Values.customConfigMap.variables.postgresDb }}
-  POSTGRES_HOST: {{ .Values.customConfigMap.variables.postgresHost }}
-  POSTGRES_PASSWORD: {{ .Values.customConfigMap.variables.postgressPassword }}
-  POSTGRES_USER: {{ .Values.customConfigMap.variables.postgresUser }}
+  FRONTEND_URL: {{ .Values.customConfigMap.data.frontendUrl }}
+  POSTGRES_DB: {{ .Values.customConfigMap.data.postgresDb }}
+  POSTGRES_HOST: {{ .Values.customConfigMap.data.postgresHost }}
+  POSTGRES_PASSWORD: {{ .Values.customConfigMap.data.postgressPassword }}
+  POSTGRES_USER: {{ .Values.customConfigMap.data.postgresUser }}
 kind: ConfigMap
 metadata:
   creationTimestamp: null
@@ -13,9 +13,9 @@ metadata:
 ---
 apiVersion: v1
 data:
-  POSTGRES_DB: {{ .Values.customConfigMap.variables.postgresDb }}
-  POSTGRES_PASSWORD: {{ .Values.customConfigMap.variables.postgressPassword }}
-  POSTGRES_USER: {{ .Values.customConfigMap.variables.postgresUser }}
+  POSTGRES_DB: {{ .Values.customConfigMap.data.postgresDb }}
+  POSTGRES_PASSWORD: {{ .Values.customConfigMap.data.postgressPassword }}
+  POSTGRES_USER: {{ .Values.customConfigMap.data.postgresUser }}
 kind: ConfigMap
 metadata:
   creationTimestamp: null

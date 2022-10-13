@@ -83,9 +83,8 @@ affinity: {}
 
 
 # Values used in configmap.yaml
-
 customConfigMap:
-  variables:
+  data:
     frontendUrl: https://frontend-a1b2c3.bunnyenv.com
     postgresDb: bunny_books
     postgresHost: db
@@ -93,18 +92,32 @@ customConfigMap:
     postgresUser: postgres
 
 # Values used in configmap.yaml
-
 customService:
-  ports:
-    backend:
-      name: "3080"
-      port: 3080
-      targetPort: 3080
-    db:
-      name: "5432"
-      port: 5432
-      targetPort: 5432
-    frontend:
-      name: "8080"
-      port: 8080
-      targetPort: 8080
+  spec:
+    ports:
+      backend:
+        name: "3080"
+        port: 3080
+        targetPort: 3080
+      db:
+        name: "5432"
+        port: 5432
+        targetPort: 5432
+      frontend:
+        name: "8080"
+        port: 8080
+        targetPort: 8080
+
+# Values used in persitentvolumeclaim.yaml
+customPvc:
+  metadata:
+    name: db-data-a1b2c3
+    namespace: env-a1b2c3
+  spec:
+    accessModes:
+      RWO: ReadWriteOnce
+      RWX: ReadWriteMany
+    resources:
+      requests:
+        storage: 1Gi
+    storageClassName: bns-network-sc      

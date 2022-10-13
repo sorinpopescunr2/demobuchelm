@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  creationTimestamp: null
+  name: {{ .Values.customPvc.metadata.name }}
+  namespace: {{ .Values.customPvc.metadata.namespace }}
+spec:
+  accessModes:
+  - {{ .Values.customPvc.spec.accessModes.RWX }}
+  resources:
+    requests:
+      storage: {{ .Values.customPvc.spec.resources.requests.storage }}
+  storageClassName: {{ .Values.customPvc.spec.storageClassName }}
+status: {}
