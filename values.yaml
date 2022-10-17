@@ -45,6 +45,7 @@ customPvc:
 customIngress:
   spec:
     ingressClassName: bns-nginx
+customDomain: bunnyenv.com
 
 # Values used in deployment.yaml
 customDeployment:
