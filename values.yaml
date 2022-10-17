@@ -27,7 +27,7 @@ customService:
         port: 8080
         targetPort: 8080
 
-# Values used in oersistentvolumeclaim.yaml
+# Values used in persistentvolumeclaim.yaml
 customPvc:
   metadata:
     name: db-data-
