@@ -9,7 +9,7 @@ metadata:
 spec:
   ingressClassName: {{ .Values.customIngress.spec.ingressClassName }}
   rules:
-  - host: backend-{{ .Values.bunnyshellUnique }}.{{ .Values.customDomain }}
+  - host: backend-{{ .Values.customDomain }}
     http:
       paths:
       - backend:
@@ -19,7 +19,7 @@ spec:
               number: {{ .Values.customService.spec.ports.backend.port }}
         path: /
         pathType: Prefix
-  - host: frontend-{{ .Values.bunnyshellUnique }}.{{ .Values.customDomain }}
+  - host: frontend-{{ .Values.customDomain }}
     http:
       paths:
       - backend:
