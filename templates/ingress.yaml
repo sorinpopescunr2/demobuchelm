@@ -5,7 +5,7 @@ metadata:
     {{- include "demobuc1.albnginx" . | nindent 4 }}
   labels:
     {{- include "demobuc1.ingressLabels" . | nindent 4 }}
-  name: {{ .Values.bunnyshellUnique }}-{{ .Values.bunnyshellUnique }}-ingress
+  name: {{ .Values.bunnyshellUnique }}-ingress
 spec:
   ingressClassName: {{ .Values.customIngress.spec.ingressClassName }}
   rules:
